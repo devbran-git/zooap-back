@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Animal {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  birthDate   DateTime
+  species     String
+  habitat     String
+  originCountry String
+
+  cares       AnimalCare[]
+}
+
+model Care {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  frequency   String
+
+  animals     AnimalCare[]
+}
+
+model AnimalCare {
+  id       Int    @id @default(autoincrement())
+  animalId Int
+  careId   Int
+
+  animal   Animal @relation(fields: [animalId], references: [id])
+  care     Care   @relation(fields: [careId], references: [id])
+
+  @@unique([animalId, careId])
+}
