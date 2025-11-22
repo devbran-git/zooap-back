@@ -26,9 +26,19 @@ export const animalController = {
 
   async list(req: Request, res: Response) {
     try {
-      const animals = await prisma.animal.findMany();
+      const { habitat, species, originCountry } = req.query;
+
+      const where: any = {};
+
+      if (habitat) where.habitat = { contains: String(habitat) };
+      if (species) where.species = { contains: String(species) };
+      if (originCountry) where.originCountry = { contains: String(originCountry) };
+
+      const animals = await prisma.animal.findMany({ where });
+
       return res.json(animals);
     } catch (error) {
+      console.error("ERRO AO LISTAR ANIMAIS:", error);
       return res.status(500).json({ error: "Erro ao listar animais" });
     }
   },
@@ -45,6 +55,7 @@ export const animalController = {
 
       return res.json(animal);
     } catch (error) {
+      console.error("ERRO AO BUSCAR ANIMAL:", error);
       return res.status(500).json({ error: "Erro ao buscar animal" });
     }
   },
@@ -59,7 +70,7 @@ export const animalController = {
         data: {
           name,
           description,
-          birthDate: new Date(birthDate),
+          birthDate: birthDate ? new Date(birthDate) : undefined,
           species,
           habitat,
           originCountry,
@@ -68,6 +79,7 @@ export const animalController = {
 
       return res.json(animal);
     } catch (error) {
+      console.error("ERRO AO ATUALIZAR ANIMAL:", error);
       return res.status(500).json({ error: "Erro ao atualizar animal" });
     }
   },
@@ -82,6 +94,7 @@ export const animalController = {
 
       return res.status(204).send();
     } catch (error) {
+      console.error("ERRO AO REMOVER ANIMAL:", error);
       return res.status(500).json({ error: "Erro ao remover animal" });
     }
   },

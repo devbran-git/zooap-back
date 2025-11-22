@@ -33,3 +33,11 @@ export const idParamAnimalSchema = z.object({
     id: z.string().regex(/^\d+$/, "ID deve ser numérico"),
   }),
 });
+
+export const listAnimalsSchema = z.object({
+  query: z.object({
+    habitat: z.string().min(2).optional(),
+    species: z.string().min(2).optional(),
+    originCountry: z.string().min(2).optional(),
+  }),
+});
