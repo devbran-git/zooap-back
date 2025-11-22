@@ -3,11 +3,11 @@ import { z } from "zod";
 export const createAnimalSchema = z.object({
   body: z.object({
     name: z.string().min(2, "Nome muito curto"),
-    description: z.string().min(5),
-    birthDate: z.string().datetime("Data inválida"),
-    species: z.string().min(2),
-    habitat: z.string().min(2),
-    originCountry: z.string().min(2),
+    description: z.string().min(5, "Descrição muito curta"),
+    birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data deve estar no formato YYYY-MM-DD"),
+    species: z.string().min(2, "Espécie muito curta"),
+    habitat: z.string().min(2, "Habitat muito curto"),
+    originCountry: z.string().min(2, "País de origem muito curto"),
   }),
 });
 
@@ -18,7 +18,10 @@ export const updateAnimalSchema = z.object({
   body: z.object({
     name: z.string().min(2).optional(),
     description: z.string().min(5).optional(),
-    birthDate: z.iso.datetime().optional(),
+    birthDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Data deve estar no formato YYYY-MM-DD")
+      .optional(),
     species: z.string().min(2).optional(),
     habitat: z.string().min(2).optional(),
     originCountry: z.string().min(2).optional(),
