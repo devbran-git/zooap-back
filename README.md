@@ -9,7 +9,7 @@ API REST para gerenciamento de animais e cuidados, demonstrando habilidades em l
 - Node.js + Express
 - TypeScript
 - Prisma ORM
-- SQL Server
+- PostgreSQL
 - Zod para validação
 
 ## Endpoints
@@ -69,10 +69,10 @@ GET /animals?habitat=Savana&species=Leão
 npm install
 ```
 
-2. Configurar `.env` com a string de conexão do SQL Server:
+2. Configurar `.env` com a string de conexão do PostgreSQL:
 
 ```
-DATABASE_URL="sqlserver://USER:PASSWORD@HOST:PORT;database=DB_NAME"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DB_NAME"
 ```
 
 3. Gerar cliente Prisma:
