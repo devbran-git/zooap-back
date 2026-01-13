@@ -3,38 +3,37 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
 }
 
 model Animal {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String
-  birthDate   DateTime
-  species     String
-  habitat     String
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String
+  birthDate     DateTime
+  species       String
+  habitat       String
   originCountry String
 
-  cares       AnimalCare[]
+  cares AnimalCare[]
 }
 
 model Care {
-  id          Int       @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
   description String
   frequency   String
 
-  animals     AnimalCare[]
+  animals AnimalCare[]
 }
 
 model AnimalCare {
-  id       Int    @id @default(autoincrement())
+  id       Int @id @default(autoincrement())
   animalId Int
   careId   Int
 
-  animal   Animal @relation(fields: [animalId], references: [id])
-  care     Care   @relation(fields: [careId], references: [id])
+  animal Animal @relation(fields: [animalId], references: [id])
+  care   Care   @relation(fields: [careId], references: [id])
 
   @@unique([animalId, careId])
 }
